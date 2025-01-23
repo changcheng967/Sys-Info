@@ -1,17 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const systemInfoDiv = document.getElementById('systemInfo');
+    const browserInfoDiv = document.getElementById('browserInfo');
+    const networkInfoDiv = document.getElementById('networkInfo');
 
-    async function getSystemInfo() {
-        const gpuInfo = navigator.gpu ? navigator.gpu.getPreferredCanvasFormat() : 'GPU Info not available';
-        const memoryInfo = navigator.deviceMemory || 'Memory Info not available';
-        const cpuInfo = navigator.hardwareConcurrency || 'CPU Info not available';
+    function getBrowserInfo() {
+        const userAgent = navigator.userAgent;
+        const browserName = navigator.appName;
+        const browserVersion = navigator.appVersion;
+        const platform = navigator.platform;
 
-        systemInfoDiv.innerHTML = `
-            <p><strong>GPU:</strong> ${gpuInfo}</p>
-            <p><strong>Memory:</strong> ${memoryInfo} GB</p>
-            <p><strong>CPU Cores:</strong> ${cpuInfo}</p>
+        browserInfoDiv.innerHTML = `
+            <h2>Browser Information</h2>
+            <p><strong>User Agent:</strong> ${userAgent}</p>
+            <p><strong>Browser Name:</strong> ${browserName}</p>
+            <p><strong>Browser Version:</strong> ${browserVersion}</p>
+            <p><strong>Platform:</strong> ${platform}</p>
         `;
     }
 
-    getSystemInfo();
+    function getNetworkInfo() {
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        let connectionInfo = "Connection information is not available";
+
+        if (connection) {
+            const type = connection.effectiveType;
+            const downlink = connection.downlink;
+            const rtt = connection.rtt;
+
+            connectionInfo = `
+                <h2>Network Information</h2>
+                <p><strong>Type:</strong> ${type}</p>
+                <p><strong>Downlink:</strong> ${downlink} Mbps</p>
+                <p><strong>Latency (RTT):</strong> ${rtt} ms</p>
+            `;
+        }
+
+        networkInfoDiv.innerHTML = connectionInfo;
+    }
+
+    getBrowserInfo();
+    getNetworkInfo();
 });
