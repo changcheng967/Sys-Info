@@ -2,13 +2,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const consentButton = document.getElementById('consentButton');
     const infoDiv = document.getElementById('info');
 
+    if (!consentButton || !infoDiv) {
+        console.error('One or more elements not found in the DOM');
+        return;
+    }
+
     consentButton.addEventListener('click', () => {
+        console.log('Consent button clicked');
         consentButton.style.display = 'none';
         infoDiv.style.display = 'block';
-        fetchSystemInfo();
+        try {
+            fetchSystemInfo();
+        } catch (error) {
+            console.error('Error fetching system info:', error);
+            infoDiv.innerHTML = '<p>An error occurred while fetching system information.</p>';
+        }
     });
 
     function fetchSystemInfo() {
+        console.log('Fetching system information');
+
         // User Agent
         const userAgent = navigator.userAgent;
         infoDiv.innerHTML += `<p><strong>User Agent:</strong> ${userAgent}</p>`;
@@ -51,6 +64,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 infoDiv.innerHTML += `<p><strong>Battery Level:</strong> ${battery.level * 100}%</p>`;
                 infoDiv.innerHTML += `<p><strong>Battery Charging:</strong> ${battery.charging ? 'Yes' : 'No'}</p>`;
             }).catch(err => {
+                console.error('Battery info error:', err);
                 infoDiv.innerHTML += `<p><strong>Battery Info:</strong> Not available or permission denied.</p>`;
             });
         } else {
@@ -66,7 +80,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         try {
             gl = document.createElement('canvas').getContext('webgl');
         } catch (e) { 
-            // WebGL not supported
+            console.error('WebGL context creation failed:', e);
         }
         
         if (gl) {
@@ -81,5 +95,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else {
             infoDiv.innerHTML += `<p><strong>GPU Info:</strong> WebGL not supported</p>`;
         }
+
+        console.log('System information fetched');
     }
 });
