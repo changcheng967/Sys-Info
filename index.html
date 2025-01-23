@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Info Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>System Information</h1>
-    <div id="info"></div>
+    <h1>System Information Viewer</h1>
+    <p>Please grant permission to view system information:</p>
+    <button id="consentButton">Grant Permission</button>
+    <div id="info" style="display: none;"></div>
     <script src="script.js"></script>
 </body>
 </html>
