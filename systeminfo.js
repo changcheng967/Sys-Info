@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const browserInfoDiv = document.getElementById('browserInfo');
-    const networkInfoDiv = document.getElementById('networkInfo');
+    const userAgentElem = document.getElementById('userAgent');
+    const browserNameElem = document.getElementById('browserName');
+    const browserVersionElem = document.getElementById('browserVersion');
+    const platformElem = document.getElementById('platform');
+    const connectionTypeElem = document.getElementById('connectionType');
+    const downlinkElem = document.getElementById('downlink');
+    const rttElem = document.getElementById('rtt');
 
     function getBrowserInfo() {
         const userAgent = navigator.userAgent;
@@ -8,33 +13,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const browserVersion = navigator.appVersion;
         const platform = navigator.platform;
 
-        browserInfoDiv.innerHTML = `
-            <h2>Browser Information</h2>
-            <p><strong>User Agent:</strong> ${userAgent}</p>
-            <p><strong>Browser Name:</strong> ${browserName}</p>
-            <p><strong>Browser Version:</strong> ${browserVersion}</p>
-            <p><strong>Platform:</strong> ${platform}</p>
-        `;
+        userAgentElem.textContent = `User Agent: ${userAgent}`;
+        browserNameElem.textContent = `Browser Name: ${browserName}`;
+        browserVersionElem.textContent = `Browser Version: ${browserVersion}`;
+        platformElem.textContent = `Platform: ${platform}`;
     }
 
     function getNetworkInfo() {
         const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        let connectionInfo = "Connection information is not available";
-
         if (connection) {
             const type = connection.effectiveType;
             const downlink = connection.downlink;
             const rtt = connection.rtt;
 
-            connectionInfo = `
-                <h2>Network Information</h2>
-                <p><strong>Type:</strong> ${type}</p>
-                <p><strong>Downlink:</strong> ${downlink} Mbps</p>
-                <p><strong>Latency (RTT):</strong> ${rtt} ms</p>
-            `;
+            connectionTypeElem.textContent = `Connection Type: ${type}`;
+            downlinkElem.textContent = `Downlink: ${downlink} Mbps`;
+            rttElem.textContent = `Latency (RTT): ${rtt} ms`;
+        } else {
+            connectionTypeElem.textContent = "Connection information is not available";
+            downlinkElem.textContent = "";
+            rttElem.textContent = "";
         }
-
-        networkInfoDiv.innerHTML = connectionInfo;
     }
 
     getBrowserInfo();
